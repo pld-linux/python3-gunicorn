@@ -7,7 +7,7 @@
 Summary:	Python WSGI application server
 Name:		python-%{module}
 Version:	18.0
-Release:	1
+Release:	2
 License:	MIT
 Group:		Daemons
 URL:		http://gunicorn.org/
@@ -110,7 +110,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/%{module}_django
 %attr(755,root,root) %{_bindir}/%{module}_paster
 %{py_sitescriptdir}/gunicorn
-%{py_sitescriptdir}/gunicorn-%{version}0-py*.egg-info
+%{py_sitescriptdir}/gunicorn-%{version}-py*.egg-info
 %endif
 
 %if %{with python3}
