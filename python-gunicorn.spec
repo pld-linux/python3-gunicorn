@@ -56,13 +56,13 @@ cp -a py2 py3
 %build
 %if %{with python2}
 cd py2
-%{__python} setup.py build
+%py_build
 cd -
 %endif
 
 %if %{with python3}
 cd py3
-%{__python3} setup.py build
+%py3_build
 %endif
 
 %if %{with tests}
@@ -80,10 +80,7 @@ cd py3
 rm -rf $RPM_BUILD_ROOT
 %if %{with python3}
 cd py3
-%{__python3} setup.py install \
-	--skip-build \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py3_install
 
 # rename executables in %{_bindir} so they don't collide
 for executable in %{module} %{module}_django %{module}_paster; do
@@ -94,10 +91,7 @@ cd -
 
 %if %{with python2}
 cd py2
-%{__python} setup.py install \
-	--skip-build \
-	--optimize=2 \
-	--root=$RPM_BUILD_ROOT
+%py_install
 %endif
 
 %clean
