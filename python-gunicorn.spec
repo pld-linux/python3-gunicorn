@@ -11,6 +11,7 @@ Release:	4
 License:	MIT
 Group:		Daemons
 URL:		http://gunicorn.org/
+BuildRequires:	rpmbuild(macros) >= 1.710
 Source0:	https://pypi.python.org/packages/source/g/%{module}/%{module}-%{version}.tar.gz
 # Source0-md5:	faa3e80661efd67e5e06bba32699af20
 # distro-specific, not upstreamable
