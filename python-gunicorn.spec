@@ -7,7 +7,7 @@
 Summary:	Python WSGI application server
 Name:		python-%{module}
 Version:	19.3.0
-Release:	4
+Release:	5
 License:	MIT
 Group:		Daemons
 URL:		http://gunicorn.org/
