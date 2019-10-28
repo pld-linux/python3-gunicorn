@@ -9,7 +9,7 @@ Summary:	Python WSGI application server
 Summary(pl.UTF-8):	Pythonowy serwer aplikacji WSGI
 Name:		python-%{module}
 Version:	19.7.0
-Release:	2
+Release:	3
 License:	MIT
 Group:		Daemons
 #Source0Download: https://pypi.python.org/simple/gunicorn
