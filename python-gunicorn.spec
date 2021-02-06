@@ -8,13 +8,14 @@
 Summary:	Python WSGI application server
 Summary(pl.UTF-8):	Pythonowy serwer aplikacji WSGI
 Name:		python-%{module}
-Version:	19.9.0
+# keep 19.x here for python2 support
+Version:	19.10.0
 Release:	1
 License:	MIT
 Group:		Daemons
 #Source0Download: https://pypi.python.org/simple/gunicorn
 Source0:	https://files.pythonhosted.org/packages/source/g/gunicorn/%{module}-%{version}.tar.gz
-# Source0-md5:	f581937e9d8569ebd3fd6af1f9ab809f
+# Source0-md5:	dfa07409c60f9dd8501fa0503f0bfbb1
 # distro-specific, not upstreamable
 Patch100:	%{name}-dev-log.patch
 URL:		http://gunicorn.org/
@@ -22,9 +23,10 @@ URL:		http://gunicorn.org/
 BuildRequires:	python-devel >= 1:2.6
 BuildRequires:	python-setuptools
 %if %{with tests}
+BuildRequires:	python-coverage >= 4.0
 BuildRequires:	python-mock
-BuildRequires:	python-pytest >= 3.0.5
-BuildRequires:	python-pytest-cov >= 2.4.0
+BuildRequires:	python-pytest >= 3.2.5
+BuildRequires:	python-pytest-cov >= 2.5.1
 %if "%{py_ver}" < "2.7"
 BuildRequires:	python-unittest2
 %endif
@@ -34,10 +36,11 @@ BuildRequires:	python-unittest2
 BuildRequires:	python3-devel >= 1:3.2
 BuildRequires:	python3-setuptools
 %if %{with tests}
-BuildRequires:	python3-pytest >= 3.0.5
-BuildRequires:	python3-pytest-cov >= 2.4.0
+BuildRequires:	python3-coverage >= 4.0
+BuildRequires:	python3-pytest >= 3.2.5
+BuildRequires:	python3-pytest-cov >= 2.5.1
 %if "%{py3_ver}" < "3.3"
-BuildRequires:	python-mock
+BuildRequires:	python3-mock
 %endif
 %endif
 %endif
@@ -84,9 +87,11 @@ aplikacje WSGI, Django i Paster.
 %setup -q -n %{module}-%{version}
 %patch100 -p1
 
-%{__sed} -i -e 's/==/>=/' requirements_test.txt
+%{__sed} -i -e 's/==/>=/; s/,<4\.4//' requirements_test.txt
 
 %build
+export PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTEST_PLUGINS="pytest_cov.plugin"
+
 %if %{with python2}
 %py_build %{?with_tests:test}
 %endif
