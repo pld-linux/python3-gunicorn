@@ -17,7 +17,7 @@ Source0:	https://files.pythonhosted.org/packages/source/g/gunicorn/%{module}-%{v
 Patch100:	%{name}-dev-log.patch
 URL:		https://gunicorn.org/
 BuildRequires:	python3-devel >= 1:3.5
-BuildRequires:	python3-setuptools >= 3.0
+BuildRequires:	python3-setuptools >= 1:3.0
 %if %{with tests}
 BuildRequires:	python3-aiohttp
 BuildRequires:	python3-coverage >= 4.0
