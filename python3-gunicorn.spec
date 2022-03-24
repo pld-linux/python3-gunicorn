@@ -6,13 +6,14 @@
 Summary:	Python WSGI application server
 Summary(pl.UTF-8):	Pythonowy serwer aplikacji WSGI
 Name:		python3-%{module}
-Version:	20.0.4
-Release:	2
+Version:	20.1.0
+Release:	1
 License:	MIT
 Group:		Daemons
 #Source0Download: https://pypi.python.org/simple/gunicorn
 Source0:	https://files.pythonhosted.org/packages/source/g/gunicorn/%{module}-%{version}.tar.gz
-# Source0-md5:	543669fcbb5739ee2af77184c5e571a1
+# Source0-md5:	db8a7c5c2064000af70286534803bf1d
+Patch0:		gunicorn-eventlet0.30.patch
 # distro-specific, not upstreamable
 Patch100:	%{name}-dev-log.patch
 URL:		https://gunicorn.org/
@@ -21,6 +22,8 @@ BuildRequires:	python3-setuptools >= 1:3.0
 %if %{with tests}
 BuildRequires:	python3-aiohttp
 BuildRequires:	python3-coverage >= 4.0
+BuildRequires:	python3-eventlet >= 0.24.1
+BuildRequires:	python3-gevent >= 1.4.0
 BuildRequires:	python3-pytest >= 3.2.5
 BuildRequires:	python3-pytest-cov >= 2.5.1
 %endif
@@ -48,6 +51,7 @@ aplikacje WSGI, Django i Paster.
 
 %prep
 %setup -q -n %{module}-%{version}
+%patch0 -p1
 %patch100 -p1
 
 %build
