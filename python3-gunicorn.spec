@@ -10,7 +10,7 @@ Version:	20.1.0
 Release:	3
 License:	MIT
 Group:		Daemons
-#Source0Download: https://pypi.python.org/simple/gunicorn
+#Source0Download: https://pypi.org/simple/gunicorn/
 Source0:	https://files.pythonhosted.org/packages/source/g/gunicorn/%{module}-%{version}.tar.gz
 # Source0-md5:	db8a7c5c2064000af70286534803bf1d
 Patch0:		gunicorn-eventlet0.30.patch
