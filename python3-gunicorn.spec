@@ -7,7 +7,7 @@ Summary:	Python WSGI application server
 Summary(pl.UTF-8):	Pythonowy serwer aplikacji WSGI
 Name:		python3-%{module}
 Version:	20.1.0
-Release:	3
+Release:	4
 License:	MIT
 Group:		Daemons
 #Source0Download: https://pypi.org/simple/gunicorn/
