@@ -6,19 +6,19 @@
 Summary:	Python WSGI application server
 Summary(pl.UTF-8):	Pythonowy serwer aplikacji WSGI
 Name:		python3-%{module}
-Version:	20.1.0
-Release:	5
+Version:	23.0.0
+Release:	1
 License:	MIT
 Group:		Daemons
 #Source0Download: https://pypi.org/simple/gunicorn/
 Source0:	https://files.pythonhosted.org/packages/source/g/gunicorn/%{module}-%{version}.tar.gz
-# Source0-md5:	db8a7c5c2064000af70286534803bf1d
-Patch0:		gunicorn-eventlet0.30.patch
+# Source0-md5:	18b666db62a890579170639961c5b064
 # distro-specific, not upstreamable
 Patch100:	%{name}-dev-log.patch
 URL:		https://gunicorn.org/
 BuildRequires:	python3-devel >= 1:3.5
-BuildRequires:	python3-setuptools >= 1:3.0
+BuildRequires:	python3-build
+BuildRequires:	python3-installer
 %if %{with tests}
 BuildRequires:	python3-aiohttp
 BuildRequires:	python3-coverage >= 4.0
@@ -51,20 +51,23 @@ aplikacje WSGI, Django i Paster.
 
 %prep
 %setup -q -n %{module}-%{version}
-%patch -P 0 -p1
 %patch -P 100 -p1
 
 %build
-export PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTEST_PLUGINS="pytest_cov.plugin"
+%py3_build_pyproject
 
-%py3_build %{?with_tests:test}
+%if %{with tests}
+%{__python3} -m zipfile -e build-3/*.whl build-3-test
+# use explicit plugins list for reliable builds (delete PYTEST_PLUGINS if empty)
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
+PYTEST_PLUGINS="pytest_cov.plugin" \
+%{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%py3_install
-
-%{__mv} $RPM_BUILD_ROOT%{_bindir}/{gunicorn,gunicorn-3}
+%py3_install_pyproject
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -72,6 +75,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc LICENSE NOTICE README.rst THANKS
-%attr(755,root,root) %{_bindir}/gunicorn-3
+%attr(755,root,root) %{_bindir}/gunicorn
 %{py3_sitescriptdir}/gunicorn
-%{py3_sitescriptdir}/gunicorn-%{version}-py*.egg-info
+%{py3_sitescriptdir}/gunicorn-%{version}.dist-info
