@@ -16,25 +16,31 @@ Source0:	https://files.pythonhosted.org/packages/source/g/gunicorn/%{module}-%{v
 # distro-specific, not upstreamable
 Patch100:	%{name}-dev-log.patch
 URL:		https://gunicorn.org/
-BuildRequires:	python3-devel >= 1:3.5
 BuildRequires:	python3-build
 BuildRequires:	python3-installer
+BuildRequires:	python3-modules >= 1:3.7
+BuildRequires:	python3-setuptools >= 1:61.2
 %if %{with tests}
-BuildRequires:	python3-aiohttp
 BuildRequires:	python3-coverage >= 4.0
 BuildRequires:	python3-eventlet >= 0.24.1
 BuildRequires:	python3-gevent >= 1.4.0
-BuildRequires:	python3-pytest >= 3.2.5
+BuildRequires:	python3-packaging
+%if "%{py3_ver}" == "3.7"
+BuildRequires:	python3-importlib_metadata
+%endif
+BuildRequires:	python3-pytest >= 7.2.0
 BuildRequires:	python3-pytest-cov >= 2.5.1
+BuildRequires:	python3-tornado >= 0.2
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.714
 BuildRequires:	sed >= 4.0
 %if %{with doc}
 BuildRequires:	sphinx-pdg-3
+BuildRequires:	python3-docutils
 BuildRequires:	python3-sphinx_rtd_theme
 %endif
-Requires:	python3-setuptools
+Requires:	python3-modules >= 1:3.7
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -58,7 +64,6 @@ aplikacje WSGI, Django i Paster.
 
 %if %{with tests}
 %{__python3} -m zipfile -e build-3/*.whl build-3-test
-# use explicit plugins list for reliable builds (delete PYTEST_PLUGINS if empty)
 PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 \
 PYTEST_PLUGINS="pytest_cov.plugin" \
 %{__python3} -m pytest -o pythonpath="$PWD/build-3-test" tests
